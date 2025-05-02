@@ -2,11 +2,6 @@
 
 This project demonstrates a simple, functional serverless cloud application on AWS that simulates IoT sensor data, ingests it securely, performs basic real-time analytics, and displays the results on a simple web dashboard. It integrates core cloud concepts like serverless architecture, IoT communication, and data handling.
 
-## Architecture
-
-The application uses the following AWS services in a serverless pattern:
-
-
 Features
 Simulated IoT Sensors: A Python script simulates two sensors (e.g., temperature and humidity) generating data streams.
 Secure Data Ingestion: Uses MQTT protocol with certificate-based authentication via AWS IoT Core.
