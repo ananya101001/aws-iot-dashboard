@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple IoT Sensor Dashboard</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; }
+        .sensor-box, .analytics-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        h2, h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 5px;}
+        .label { font-weight: bold; min-width: 100px; display: inline-block;}
+        .value { font-family: monospace; color: #007bff; }
+        #error { color: red; font-weight: bold; }
+        #lastUpdated { font-size: 0.8em; color: #666; }
+    </style>
+</head>
+<body>
+
+    <h1>Simple IoT Sensor Dashboard</h1>
+    <div id="lastUpdated">Updating every 15 seconds...</div>
+    <div id="error"></div>
+
+    <h2>Latest Sensor Readings</h2>
+    <div id="latestReadings">
+        <p>Loading latest readings...</p>
+    </div>
+
+    <h2>Real-Time Analytics (Last 5 Mins)</h2>
+    <div id="analytics">
+         <p>Loading analytics...</p>
+    </div>
+
+    <script>
+        const apiUrl = 'https://nbwco816l2.execute-api.us-east-1.amazonaws.com/prod/data'; // <-- REPLACE THIS!
+        const latestReadingsDiv = document.getElementById('latestReadings');
+        const analyticsDiv = document.getElementById('analytics');
+        const errorDiv = document.getElementById('error');
+        const lastUpdatedDiv = document.getElementById('lastUpdated');
+        const updateInterval = 15 * 1000;
+
+        async function fetchData() {
+            errorDiv.textContent = '';
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                updateLatestReadings(data.latestReadings);
+                updateAnalytics(data.analytics);
+
+                lastUpdatedDiv.textContent = `Last updated: ${new Date().toLocaleTimeString()}. Updating every 15 seconds...`;
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                errorDiv.textContent = `Error fetching data: ${error.message}`;
+            }
+        }
+
+        function formatTimestamp(epochMs) {
+            if (!epochMs) return 'N/A';
+            return new Date(epochMs).toLocaleString();
+        }
+
+        function updateLatestReadings(readings) {
+            latestReadingsDiv.innerHTML = '';
+            if (Object.keys(readings).length === 0) {
+                 latestReadingsDiv.innerHTML = '<p>No recent readings found.</p>';
+                 return;
+            }
+
+            for (const deviceId in readings) {
+                const reading = readings[deviceId];
+                const box = document.createElement('div');
+                box.className = 'sensor-box';
+                box.innerHTML = `
+                    <h3>Device: ${deviceId} (${reading.sensorType || 'N/A'})</h3>
+                    <p><span class="label">Value:</span> <span class="value">${reading.value ?? 'N/A'}</span></p>
+                    <p><span class="label">Timestamp:</span> <span class="value">${formatTimestamp(reading.timestamp)}</span></p>
+                `;
+                latestReadingsDiv.appendChild(box);
+            }
+        }
+
+        function updateAnalytics(analytics) {
+            analyticsDiv.innerHTML = '';
+             if (Object.keys(analytics).length === 0) {
+                 analyticsDiv.innerHTML = '<p>No analytics data available yet.</p>';
+                 return;
+            }
+
+            for (const sensorType in analytics) {
+                const stats = analytics[sensorType];
+                const box = document.createElement('div');
+                box.className = 'analytics-box';
+                box.innerHTML = `
+                    <h3>Sensor Type: ${sensorType}</h3>
+                    <p><span class="label">Average:</span> <span class="value">${stats.average?.toFixed(2) ?? 'N/A'}</span></p>
+                    <p><span class="label">Minimum:</span> <span class="value">${stats.minimum?.toFixed(2) ?? 'N/A'}</span></p>
+                    <p><span class="label">Maximum:</span> <span class="value">${stats.maximum?.toFixed(2) ?? 'N/A'}</span></p>
+                    <p><span class="label">Readings in Window:</span> <span class="value">${stats.readingCount ?? 'N/A'}</span></p>
+                    <p><span class="label">Last Calculated:</span> <span class="value">${formatTimestamp(stats.lastUpdated)}</span></p>
+                `;
+                analyticsDiv.appendChild(box);
+            }
+        }
+
+        fetchData();
+        setInterval(fetchData, updateInterval);
+    </script>
+
+</body>
+</html>
