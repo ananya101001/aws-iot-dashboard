@@ -6,10 +6,10 @@ import datetime
 
 # --- AWS IoT Core Configuration ---
 # Replace with your actual values
-AWS_IOT_ENDPOINT = "a1lh83zoeq7hyw-ats.iot.us-east-1.amazonaws.com" # e.g., "xxxxx-ats.iot.us-east-1.amazonaws.com"
+AWS_IOT_ENDPOINT = "" # e.g., "xxxxx-ats.iot.us-east-1.amazonaws.com"
 CLIENT_ID = "MySimulatedDevice" # Must match the client ID allowed in your policy
-PATH_TO_CERT = "./5afd8a099a8f14bdb80627ca18763f4ec5ffcfb7c1829e53a0ebfefb19eb8500-certificate.pem.crt" # e.g., "./xxxx-certificate.pem.crt"
-PATH_TO_KEY = "./5afd8a099a8f14bdb80627ca18763f4ec5ffcfb7c1829e53a0ebfefb19eb8500-private.pem.key"
+PATH_TO_CERT = "" # e.g., "./xxxx-certificate.pem.crt"
+PATH_TO_KEY = ""
 
     # e.g., "./xxxx-private.pem.key"
 PATH_TO_ROOT_CA = "./AmazonRootCA1.pem"    # Path to the downloaded Amazon Root CA 1
