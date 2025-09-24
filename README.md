@@ -5,7 +5,7 @@ It integrates core cloud concepts such as **serverless architecture, IoT communi
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Simulated IoT Sensors**: Python script simulates temperature & humidity sensors generating data streams.  
 - **Secure Data Ingestion**: MQTT protocol with certificate-based authentication via AWS IoT Core.  
@@ -50,6 +50,7 @@ cd aws-iot-dashboard
 pip install AWSIoTPythonSDK boto3
 ```
 Architecture diagram:
+```mermaid
 flowchart LR
     A[Simulated IoT Sensors] -->|MQTT over TLS| B[AWS IoT Core]
     B -->|IoT Rule| C[DynamoDB: RawSensorData]
@@ -58,6 +59,7 @@ flowchart LR
     F[EventBridge (1-min schedule)] --> D
     G[Lambda: Get Dashboard Data] --> H[API Gateway]
     H --> I[Web Dashboard (HTML/JS)]
+```
 
 ## 2. Create AWS Resources
 
