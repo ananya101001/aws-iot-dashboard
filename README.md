@@ -49,7 +49,7 @@ git clone https://github.com/ananya101001/aws-iot-dashboard
 cd aws-iot-dashboard
 pip install AWSIoTPythonSDK boto3
 
-
+```
 
 ## 2. Create AWS Resources
 
