@@ -80,6 +80,7 @@ pip install AWSIoTPythonSDK boto3
   ```sql
   SELECT * FROM 'sensors/data'
 
+### Architecture Diagram 
 
 ```mermaid
 flowchart LR
