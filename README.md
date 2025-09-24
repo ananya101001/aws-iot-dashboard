@@ -48,18 +48,8 @@ Before starting, ensure you have:
 git clone https://github.com/ananya101001/aws-iot-dashboard
 cd aws-iot-dashboard
 pip install AWSIoTPythonSDK boto3
-```
-Architecture diagram:
-```mermaid
-flowchart LR
-    A[Simulated IoT Sensors] -->|MQTT over TLS| B[AWS IoT Core]
-    B -->|IoT Rule| C[DynamoDB: RawSensorData]
-    B -->|IoT Rule → Lambda| D[Lambda: Calculate Analytics]
-    D --> E[DynamoDB: SensorAnalytics]
-    F[EventBridge (1-min schedule)] --> D
-    G[Lambda: Get Dashboard Data] --> H[API Gateway]
-    H --> I[Web Dashboard (HTML/JS)]
-```
+
+
 
 ## 2. Create AWS Resources
 
