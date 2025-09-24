@@ -87,7 +87,8 @@ flowchart LR
     B -->|IoT Rule| C[DynamoDB: RawSensorData]
     B -->|IoT Rule → Lambda| D[Lambda: Calculate Analytics]
     D --> E[DynamoDB: SensorAnalytics]
-    F[EventBridge (1-min schedule)] --> D
+    F[EventBridge - 1 min schedule] --> D
     G[Lambda: Get Dashboard Data] --> H[API Gateway]
-    H --> I[Web Dashboard (HTML/JS)]
+    H --> I[Web Dashboard - HTML/JS]
+```
 
